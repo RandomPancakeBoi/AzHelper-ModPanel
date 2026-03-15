@@ -140,6 +140,13 @@ app.get("/auth/callback", async (req, res) => {
   }
 });
 
+app.get("/auth/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect(process.env.ALLOWED_ORIGIN);
+  });
+});
+
+
 // -----------------------------
 // AUTH MIDDLEWARE
 // -----------------------------
