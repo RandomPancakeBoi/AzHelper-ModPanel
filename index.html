@@ -8,14 +8,49 @@
     <!-- Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
+    <!-- External Stylesheet -->
     <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-    <a href="https://azhelper-modpanel.onrender.com/auth/login">
-      <button class="login-btn">Moderator Login</button>
-    </a>
 
+    <!-- HEADER -->
+    <header class="top-header">
 
+        <!-- HAMBURGER MENU -->
+        <div class="hamburger-wrapper">
+            <input id="checkbox2" type="checkbox">
+            <label class="toggle toggle2" for="checkbox2">
+                <div id="bar4" class="bars"></div>
+                <div id="bar5" class="bars"></div>
+                <div id="bar6" class="bars"></div>
+            </label>
+
+            <div id="dropdownMenu" class="dropdown-menu">
+                <a href="https://azhelper-modpanel.onrender.com/auth/login">Moderator Login</a>
+                <a href="staff.html">Staff Profiles</a>
+                <a href="contact.html">Contact Us Directly</a>
+            </div>
+        </div>
+
+        <!-- DARK MODE TOGGLE -->
+        <label class="switch">
+            <input checked="true" id="checkbox" type="checkbox" />
+            <span class="slider">
+                <div class="star star_1"></div>
+                <div class="star star_2"></div>
+                <div class="star star_3"></div>
+                <svg viewBox="0 0 16 16" class="cloud_1 cloud">
+                    <path transform="matrix(.77976 0 0 .78395-299.99-418.63)" fill="#fff"
+                        d="m391.84 540.91c-.421-.329-.949-.524-1.523-.524-1.351 0-2.451 1.084-2.485 2.435-1.395.526-2.388 1.88-2.388 3.466 0 1.874 1.385 3.423 3.182 3.667v.034h12.73v-.006c1.775-.104 3.182-1.584 3.182-3.395 0-1.747-1.309-3.186-2.994-3.379.007-.106.011-.214.011-.322 0-2.707-2.271-4.901-5.072-4.901-2.073 0-3.856 1.202-4.643 2.925">
+                    </path>
+                </svg>
+            </span>
+        </label>
+
+    </header>
+
+    <!-- MAIN CONTENT -->
     <div class="container">
         <h1>Azura's Hideout Ban Appeal</h1>
         <p>Please fill out the form below to submit your appeal.</p>
@@ -42,39 +77,8 @@
         <p id="responseMessage"></p>
     </div>
 
-    <script>
-        const BACKEND_URL = "https://azhelper-modpanel.onrender.com";
-
-        document.getElementById("appealForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const turnstileToken = turnstile.getResponse();
-
-            const data = {
-                username: document.getElementById("username").value,
-                userid: document.getElementById("userid").value,
-                reason: document.getElementById("reason").value,
-                evidence: document.getElementById("evidence").value,
-                turnstileToken
-            };
-
-            const res = await fetch(`${BACKEND_URL}/appeals/submit`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            const json = await res.json();
-
-            if (json.success) {
-                document.getElementById("responseMessage").innerText =
-                    "Your appeal has been submitted successfully.";
-            } else {
-                document.getElementById("responseMessage").innerText =
-                    "Error: " + json.error;
-            }
-        });
-    </script>
+    <!-- External Script -->
+    <script src="index.js"></script>
 
 </body>
 </html>
