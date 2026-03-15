@@ -4,6 +4,7 @@ const session = require("express-session");
 const axios = require("axios");
 const cors = require("cors");
 const sqlite3 = require("sqlite3").verbose();
+const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args));
 
 const app = express();
 app.use(express.json());
@@ -12,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 // CORS — allow your GitHub Pages frontend
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGIN, // GitHub Pages URL
+    origin: process.env.ALLOWED_ORIGIN,
     credentials: true
   })
 );
@@ -20,7 +21,7 @@ app.use(
 // Sessions — secure moderator login
 app.use(
   session({
-    secret: process.env.SESSION_SECRET, // Random string you created
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
   })
@@ -54,7 +55,7 @@ async function verifyTurnstile(token) {
     const response = await axios.post(
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
       new URLSearchParams({
-        secret: process.env.TURNSTILE_SECRET_KEY, // Turnstile secret key
+        secret: process.env.TURNSTILE_SECRET_KEY,
         response: token
       })
     );
@@ -87,7 +88,6 @@ app.post("/appeals/submit", async (req, res) => {
     function (err) {
       if (err) return res.status(500).json({ error: "Database error" });
 
-      // Send webhook notification
       axios.post(process.env.WEBHOOK_URL, {
         content: `📨 **New Appeal Submitted**\n**User:** ${username}\n**ID:** ${userid}`
       });
@@ -121,4 +121,74 @@ app.get("/auth/callback", async (req, res) => {
         client_id: process.env.DISCORD_CLIENT_ID,
         client_secret: process.env.DISCORD_CLIENT_SECRET,
         grant_type: "authorization_code",
-        code
+        code,
+        redirect_uri: process.env.DISCORD_REDIRECT_URI
+      }),
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+
+    const userRes = await axios.get("https://discord.com/api/users/@me", {
+      headers: { Authorization: `Bearer ${tokenRes.data.access_token}` }
+    });
+
+    req.session.user = userRes.data;
+
+    res.redirect(process.env.ALLOWED_ORIGIN + "/dashboard.html");
+  } catch (err) {
+    console.error(err);
+    res.send("Login failed");
+  }
+});
+
+// -----------------------------
+// AUTH MIDDLEWARE
+// -----------------------------
+function requireAuth(req, res, next) {
+  if (!req.session.user) {
+    return res.status(403).json({ error: "Not logged in" });
+  }
+  next();
+}
+
+// -----------------------------
+// MOD DASHBOARD ROUTES
+// -----------------------------
+app.get("/appeals/list", requireAuth, (req, res) => {
+  db.all(`SELECT * FROM appeals ORDER BY created_at DESC`, [], (err, rows) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+    res.json(rows);
+  });
+});
+
+app.post("/appeals/update", requireAuth, (req, res) => {
+  const { id, status } = req.body;
+
+  db.run(
+    `UPDATE appeals SET status = ? WHERE id = ?`,
+    [status, id],
+    function (err) {
+      if (err) return res.status(500).json({ error: "Database error" });
+
+      axios.post(process.env.WEBHOOK_URL, {
+        content: `🔔 Appeal #${id} has been **${status}** by a moderator.`
+      });
+
+      res.json({ success: true });
+    }
+  );
+});
+
+// -----------------------------
+// SELF-PING TO KEEP RENDER AWAKE
+// -----------------------------
+setInterval(() => {
+  fetch("https://azhelper-modpanel.onrender.com/healthz").catch(() => {});
+}, 600000); // every 10 minutes
+
+// -----------------------------
+// START SERVER
+// -----------------------------
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
+});
