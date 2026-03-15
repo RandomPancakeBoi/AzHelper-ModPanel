@@ -1,1 +1,164 @@
+/* ------------------------------
+   Global Styles
+------------------------------ */
 
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0f0f0f;
+    color: #fff;
+}
+
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+p {
+    text-align: center;
+    color: #ccc;
+}
+
+/* ------------------------------
+   Form Styles
+------------------------------ */
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #2a2a2a;
+    color: #fff;
+    font-size: 15px;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button {
+    padding: 12px;
+    background: #5865f2;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #4752c4;
+}
+
+/* ------------------------------
+   Dashboard Styles
+------------------------------ */
+
+.appeals {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.appeal-card {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #5865f2;
+}
+
+.appeal-card h3 {
+    margin-top: 0;
+}
+
+.status {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.status.pending {
+    color: #ffcc00;
+}
+
+.status.approved {
+    color: #4caf50;
+}
+
+.status.denied {
+    color: #ff4444;
+}
+
+.actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.approve {
+    background: #4caf50;
+}
+
+.approve:hover {
+    background: #3e8e41;
+}
+
+.deny {
+    background: #ff4444;
+}
+
+.deny:hover {
+    background: #cc0000;
+}
+
+/* ------------------------------
+   Logout Button
+------------------------------ */
+
+.logout {
+    background: #ff4444;
+    margin-bottom: 20px;
+}
+
+.logout:hover {
+    background: #cc0000;
+}
+
+/* ------------------------------
+   Responsive
+------------------------------ */
+
+@media (max-width: 600px) {
+    .container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
