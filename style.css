@@ -1,5 +1,5 @@
 /* ------------------------------
-   Global Styles
+   GLOBAL STYLES
 ------------------------------ */
 
 body {
@@ -8,6 +8,12 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background: #0f0f0f;
     color: #fff;
+    transition: background 0.3s, color 0.3s;
+}
+
+.dark-mode {
+    background: #ffffff;
+    color: #000000;
 }
 
 .container {
@@ -17,6 +23,12 @@ body {
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    transition: background 0.3s;
+}
+
+.dark-mode .container {
+    background: #f2f2f2;
+    color: #000;
 }
 
 h1 {
@@ -29,8 +41,23 @@ p {
     color: #ccc;
 }
 
+.dark-mode p {
+    color: #333;
+}
+
 /* ------------------------------
-   Form Styles
+   HEADER
+------------------------------ */
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+/* ------------------------------
+   FORM STYLES
 ------------------------------ */
 
 form {
@@ -54,6 +81,12 @@ input, textarea {
     font-size: 15px;
 }
 
+.dark-mode input,
+.dark-mode textarea {
+    background: #e0e0e0;
+    color: #000;
+}
+
 textarea {
     min-height: 120px;
     resize: vertical;
@@ -75,93 +108,192 @@ button:hover {
 }
 
 /* ------------------------------
-   Dashboard Styles
+   DARK MODE TOGGLE
 ------------------------------ */
 
-.appeals {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 4em;
+  height: 2.2em;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.appeal-card {
-    background: #222;
-    padding: 20px;
-    border-radius: 10px;
-    border-left: 5px solid #5865f2;
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.appeal-card h3 {
-    margin-top: 0;
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #2a2a2a;
+  transition: 0.4s;
+  border-radius: 30px;
+  overflow: hidden;
 }
 
-.status {
-    font-weight: bold;
-    text-transform: capitalize;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1.2em;
+  width: 1.2em;
+  border-radius: 20px;
+  left: 0.5em;
+  bottom: 0.5em;
+  transition: 0.4s;
+  transition-timing-function: cubic-bezier(0.81, -0.04, 0.38, 1.5);
+  box-shadow: inset 8px -4px 0px 0px #fff;
 }
 
-.status.pending {
-    color: #ffcc00;
+.switch input:checked + .slider {
+  background-color: #00a6ff;
 }
 
-.status.approved {
-    color: #4caf50;
+.switch input:checked + .slider:before {
+  transform: translateX(1.8em);
+  box-shadow: inset 15px -4px 0px 15px #ffcf48;
 }
 
-.status.denied {
-    color: #ff4444;
+.star {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  transition: all 0.4s;
 }
 
-.actions {
-    margin-top: 15px;
-    display: flex;
-    gap: 10px;
+.star_1 { left: 2.5em; top: 0.5em; }
+.star_2 { left: 2.2em; top: 1.2em; }
+.star_3 { left: 3em; top: 0.9em; }
+
+.switch input:checked ~ .slider .star {
+  opacity: 0;
 }
 
-.approve {
-    background: #4caf50;
+.cloud {
+  width: 3.5em;
+  position: absolute;
+  bottom: -1.4em;
+  left: -1.1em;
+  opacity: 0;
+  transition: all 0.4s;
 }
 
-.approve:hover {
-    background: #3e8e41;
-}
-
-.deny {
-    background: #ff4444;
-}
-
-.deny:hover {
-    background: #cc0000;
+.switch input:checked ~ .slider .cloud {
+  opacity: 1;
 }
 
 /* ------------------------------
-   Logout Button
+   HAMBURGER MENU
 ------------------------------ */
 
-.logout {
-    background: #ff4444;
-    margin-bottom: 20px;
+.hamburger-wrapper {
+    position: relative;
 }
 
-.logout:hover {
-    background: #cc0000;
+#checkbox2 {
+  display: none;
 }
 
-.login-btn {
-    background: #5865f2;
-    padding: 12px;
+.toggle2 {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition-duration: .5s;
+}
+
+.bars {
+  width: 100%;
+  height: 6px;
+  background-color: rgb(92, 176, 255);
+  border-radius: 6px;
+}
+
+#bar5 {
+  transition-duration: .8s;
+}
+
+#bar4, #bar6 {
+  width: 80%;
+}
+
+#checkbox2:checked + .toggle2 .bars {
+  position: absolute;
+  transition-duration: .5s;
+}
+
+#checkbox2:checked + .toggle2 #bar5 {
+  transform: scaleX(0);
+}
+
+#checkbox2:checked + .toggle2 #bar4 {
+  width: 100%;
+  transform: rotate(45deg);
+}
+
+#checkbox2:checked + .toggle2 #bar6 {
+  width: 100%;
+  transform: rotate(-45deg);
+}
+
+#checkbox2:checked + .toggle2 {
+  transform: rotate(180deg);
+}
+
+/* ------------------------------
+   DROPDOWN MENU
+------------------------------ */
+
+.dropdown-menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background: #1a1a1a;
     border-radius: 8px;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 20px;
+    display: none;
+    flex-direction: column;
+    padding: 10px;
+    width: 180px;
+    z-index: 10;
 }
 
+.dropdown-menu a {
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    background: #2a2a2a;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.dropdown-menu a:hover {
+    background: #3a3a3a;
+}
+
+.dark-mode .dropdown-menu {
+    background: #e0e0e0;
+}
+
+.dark-mode .dropdown-menu a {
+    background: #d0d0d0;
+    color: #000;
+}
 
 /* ------------------------------
-   Responsive
+   RESPONSIVE
 ------------------------------ */
 
 @media (max-width: 600px) {
