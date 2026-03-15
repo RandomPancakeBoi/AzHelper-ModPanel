@@ -3,7 +3,7 @@ const axios = require("axios");
 
 const router = express.Router();
 
-// Login → Redirect to Discord
+// Discord login redirect
 router.get("/login", (req, res) => {
   const redirect = `https://discord.com/oauth2/authorize?client_id=${
     process.env.DISCORD_CLIENT_ID
@@ -19,6 +19,7 @@ router.get("/callback", async (req, res) => {
   const code = req.query.code;
 
   try {
+    // Exchange code for access token
     const tokenRes = await axios.post(
       "https://discord.com/api/oauth2/token",
       new URLSearchParams({
@@ -31,11 +32,12 @@ router.get("/callback", async (req, res) => {
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     );
 
+    // Fetch user info
     const userRes = await axios.get("https://discord.com/api/users/@me", {
       headers: { Authorization: `Bearer ${tokenRes.data.access_token}` }
     });
 
-    // Optional: Role-based access check
+    // Role-based access check
     const guildId = "928794195286696019";
     const allowedRoles = [
       "928795215702143006",
@@ -56,15 +58,15 @@ router.get("/callback", async (req, res) => {
     );
 
     if (!hasRole) {
-      return res.send("You do not have permission to access the dashboard.");
+      return res.send("❌ You do not have permission to access the dashboard.");
     }
 
+    // Save session and redirect
     req.session.user = userRes.data;
-
     res.redirect(process.env.ALLOWED_ORIGIN + "/dashboard.html");
   } catch (err) {
-    console.error(err);
-    res.send("Login failed");
+    console.error("OAuth error:", err.response?.data || err.message);
+    res.send("Login failed. Please try again.");
   }
 });
 
