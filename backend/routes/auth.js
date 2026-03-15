@@ -70,4 +70,11 @@ router.get("/callback", async (req, res) => {
   }
 });
 
+// Logout route
+router.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect(process.env.ALLOWED_ORIGIN);
+  });
+});
+
 module.exports = router;
