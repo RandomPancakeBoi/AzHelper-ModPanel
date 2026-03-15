@@ -26,7 +26,7 @@ router.get("/callback", async (req, res) => {
         client_secret: process.env.DISCORD_CLIENT_SECRET,
         grant_type: "authorization_code",
         code,
-        redirect_uri: encodeURIComponent(process.env.DISCORD_REDIRECT_URI)
+        redirect_uri: process.env.DISCORD_REDIRECT_URI
       }),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     );
@@ -34,6 +34,30 @@ router.get("/callback", async (req, res) => {
     const userRes = await axios.get("https://discord.com/api/users/@me", {
       headers: { Authorization: `Bearer ${tokenRes.data.access_token}` }
     });
+
+    // Optional: Role-based access check
+    const guildId = "928794195286696019";
+    const allowedRoles = [
+      "928795215702143006",
+      "928794195286696023"
+    ];
+
+    const guildMemberRes = await axios.get(
+      `https://discord.com/api/guilds/${guildId}/members/${userRes.data.id}`,
+      {
+        headers: {
+          Authorization: `Bot ${process.env.BOT_TOKEN}`
+        }
+      }
+    );
+
+    const hasRole = guildMemberRes.data.roles.some(role =>
+      allowedRoles.includes(role)
+    );
+
+    if (!hasRole) {
+      return res.send("You do not have permission to access the dashboard.");
+    }
 
     req.session.user = userRes.data;
 
