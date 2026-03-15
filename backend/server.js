@@ -4,7 +4,7 @@ const session = require("express-session");
 const axios = require("axios");
 const cors = require("cors");
 const sqlite3 = require("sqlite3").verbose();
-const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args));
+const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const app = express();
 app.use(express.json());
@@ -140,12 +140,15 @@ app.get("/auth/callback", async (req, res) => {
   }
 });
 
+// -----------------------------
+// LOGOUT
+// Redirects to index.html
+// -----------------------------
 app.get("/auth/logout", (req, res) => {
   req.session.destroy(() => {
-    res.redirect(process.env.ALLOWED_ORIGIN);
+    res.redirect(process.env.ALLOWED_ORIGIN + "/index.html");
   });
 });
-
 
 // -----------------------------
 // AUTH MIDDLEWARE
