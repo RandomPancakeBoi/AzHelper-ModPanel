@@ -40,13 +40,10 @@ document.getElementById("appealForm").addEventListener("submit", async (e) => {
     Dark Mode JS
 ------------------- */
 const toggle = document.getElementById("input");
-
-// Default to light mode if no preference saved
 if (!localStorage.getItem("theme")) {
     localStorage.setItem("theme", "light");
 }
 
-// Apply saved theme
 if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
     toggle.checked = true;
@@ -55,7 +52,6 @@ if (localStorage.getItem("theme") === "dark") {
     toggle.checked = false;
 }
 
-// Toggle listener
 toggle.addEventListener("change", () => {
     if (toggle.checked) {
         document.body.classList.add("dark-mode");
