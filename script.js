@@ -1,4 +1,4 @@
-// Backend URL
+// Backend URL { KEEP }
 const BACKEND_URL = "https://azhelper-modpanel.onrender.com";
 
 // -----------------------------
@@ -35,49 +35,34 @@ document.getElementById("appealForm").addEventListener("submit", async (e) => {
     }
 });
 
-// -----------------------------
-// HAMBURGER MENU DROPDOWN
-// -----------------------------
-const hamburgerCheckbox = document.getElementById("checkbox2");
-const dropdownMenu = document.getElementById("dropdownMenu");
 
-hamburgerCheckbox.addEventListener("change", () => {
-    dropdownMenu.style.display = hamburgerCheckbox.checked ? "flex" : "none";
-});
+/* ------------------
+    Dark Mode JS
+------------------- */
+const toggle = document.getElementById("input");
 
-// Close dropdown if clicking outside
-document.addEventListener("click", (e) => {
-    const isClickInside =
-        e.target.closest(".hamburger-wrapper") ||
-        e.target.closest("#checkbox2");
-
-    if (!isClickInside) {
-        hamburgerCheckbox.checked = false;
-        dropdownMenu.style.display = "none";
-    }
-});
-
-// -----------------------------
-// DARK MODE TOGGLE
-// -----------------------------
-const darkModeToggle = document.getElementById("checkbox");
-
-darkModeToggle.addEventListener("change", () => {
-    document.body.classList.toggle("dark-mode");
-});
-
-// Optional: Persist dark mode across sessions
-if (localStorage.getItem("darkMode") === "enabled") {
-    document.body.classList.add("dark-mode");
-    darkModeToggle.checked = true;
+// Default to light mode if no preference saved
+if (!localStorage.getItem("theme")) {
+    localStorage.setItem("theme", "light");
 }
 
-darkModeToggle.addEventListener("change", () => {
-    if (darkModeToggle.checked) {
+// Apply saved theme
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+    toggle.checked = true;
+} else {
+    document.body.classList.remove("dark-mode");
+    toggle.checked = false;
+}
+
+// Toggle listener
+toggle.addEventListener("change", () => {
+    if (toggle.checked) {
         document.body.classList.add("dark-mode");
-        localStorage.setItem("darkMode", "enabled");
+        localStorage.setItem("theme", "dark");
     } else {
         document.body.classList.remove("dark-mode");
-        localStorage.setItem("darkMode", "disabled");
+        localStorage.setItem("theme", "light");
     }
 });
+
