@@ -53,7 +53,7 @@
                 <div class="menu-list">Ban Appeal</div>
                 <div class="menu-list">Staff Profiles</div>
                 <div class="menu-list">Made By</div>
-                <div class="menu-list">Login</div>
+                <div class="menu-list" id="login-btn">Login</div>
             </section>
         </label>
     </header>
@@ -86,8 +86,21 @@
         <p id="responseMessage"></p>
     </div>
 
-    <!-- External Script -->
+    <!-- Moderator Widget (bottom-left, always visible for testing) -->
+    <div id="mod-widget">
+    <label class="mod-toggle">
+        <input class="checkbox" type="checkbox" />
+        <span class="button-menu"></span>
+        <button class="option-a option" title="Appeals"><svg fill="#FFFFFF" viewBox="-5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>ban</title> <path d="M20.344 9.594c3.063 4.344 2.656 10.438-1.25 14.344s-9.938 4.281-14.313 1.25c-0.5-0.375-1.063-0.813-1.531-1.25-0.469-0.469-0.875-1-1.219-1.531-3.063-4.344-2.688-10.438 1.219-14.344s9.969-4.281 14.344-1.25c0.5 0.375 1.031 0.813 1.5 1.25 0.469 0.469 0.906 1 1.25 1.531zM4.031 20.375l11.563-11.563c-3.25-1.969-7.563-1.563-10.344 1.219-2.813 2.813-3.188 7.125-1.219 10.344zM18.344 11.625l-11.563 11.531c3.25 1.969 7.563 1.563 10.344-1.219 2.813-2.813 3.188-7.094 1.219-10.313z"></path> </g></svg></button>
+        <button class="option-b option" title="Dashboard"><svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" fill="white" opacity="0"></rect><path d="M15.024 22C16.2771 22 17.3524 21.9342 18.2508 21.7345C19.1607 21.5323 19.9494 21.1798 20.5646 20.5646C21.1798 19.9494 21.5323 19.1607 21.7345 18.2508C21.9342 17.3524 22 16.2771 22 15.024V12C22 10.8954 21.1046 10 20 10H12C10.8954 10 10 10.8954 10 12V20C10 21.1046 10.8954 22 12 22H15.024Z" fill="#ffffff"></path><path d="M2 15.024C2 16.2771 2.06584 17.3524 2.26552 18.2508C2.46772 19.1607 2.82021 19.9494 3.43543 20.5646C4.05065 21.1798 4.83933 21.5323 5.74915 21.7345C5.83628 21.7538 5.92385 21.772 6.01178 21.789C7.09629 21.9985 8 21.0806 8 19.976L8 12C8 10.8954 7.10457 10 6 10H4C2.89543 10 2 10.8954 2 12V15.024Z" fill="#ffffff"></path><path d="M8.97597 2C7.72284 2 6.64759 2.06584 5.74912 2.26552C4.8393 2.46772 4.05062 2.82021 3.4354 3.43543C2.82018 4.05065 2.46769 4.83933 2.26549 5.74915C2.24889 5.82386 2.23327 5.89881 2.2186 5.97398C2.00422 7.07267 2.9389 8 4.0583 8H19.976C21.0806 8 21.9985 7.09629 21.789 6.01178C21.772 5.92385 21.7538 5.83628 21.7345 5.74915C21.5322 4.83933 21.1798 4.05065 20.5645 3.43543C19.9493 2.82021 19.1606 2.46772 18.2508 2.26552C17.3523 2.06584 16.2771 2 15.024 2H8.97597Z" fill="#ffffff"></path></svg></button>
+        <button class="option-c option" title="Logout"><svg viewBox="0 0 24 24" fill="none"><path d="M15 12L6 12M6 12L8 14M6 12L8 10" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 21.9827C10.4465 21.9359 9.51995 21.7626 8.87865 21.1213C8.11027 20.3529 8.01382 19.175 8.00171 17M16 21.9983C18.175 21.9862 19.3529 21.8897 20.1213 21.1213C21 20.2426 21 18.8284 21 16V14V10V8C21 5.17157 21 3.75736 20.1213 2.87868C19.2426 2 17.8284 2 15 2H14C11.1715 2 9.75733 2 8.87865 2.87868C8.11027 3.64706 8.01382 4.82497 8.00171 7" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"></path><path d="M3 9.5V14.5C3 16.857 3 18.0355 3.73223 18.7678C4.46447 19.5 5.64298 19.5 8 19.5M3.73223 5.23223C4.46447 4.5 5.64298 4.5 8 4.5" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"></path></svg></button>
+
+    </label>
+    </div>
+
+    <!-- External Scripts -->
     <script src="script.js"></script>
+    <script src="modwidget.js"></script>
 
 </body>
 </html>
