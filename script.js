@@ -62,3 +62,9 @@ toggle.addEventListener("change", () => {
     }
 });
 
+/* ------------------
+    Login Button
+------------------- */
+document.getElementById("login-btn").onclick = () => {
+  window.location.href = "https://azhelper-modpanel.onrender.com/auth/login";
+};
